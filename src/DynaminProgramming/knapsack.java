@@ -20,49 +20,50 @@ class KnapsackProfit {
 //       return findmax( capacity, weights, values, n);
 //    }
    //top bottom memoization
-//    public static int findmax(int capacity, int[] weights, int[] values, int n){
-//        if(n == 0 || capacity == 0 ) return 0 ;
-//        if(dp[n][capacity] != -1 ) return dp[n][capacity];
-//        if(weights[n-1] > capacity){
-//            dp[n][capacity] = findmax(capacity, weights, values, n-1);
-//        }else{
-//            dp[n][capacity] =  Math.max(values[n-1]+findmax(capacity-weights[n-1], weights, values, n-1), findmax(capacity, weights, values, n-1));
-//        }
-//        return dp[n][capacity];
-//    }
-//
-//
+    public static int findmax(int capacity, int[] weights, int[] values, int n){
+        if(n== 0 || capacity == 0) return 0 ;
+        if(dp[n][capacity] != -1) return dp[n][capacity];
+        if(weights[n-1] <= capacity){
+            dp[n][capacity] =  Math.max(values[n-1] + findmax(capacity - weights[n-1] , weights, values, n-1),findmax(capacity,weights,values,n-1));
+        } else{
+            dp[n][capacity] = findmax(capacity,weights,values,n-1);
+        }
+        return dp[n][capacity];
+    }
+
+
+    public static int findMaxKnapsackProfit(int capacity, int [] weights, int [] values) {
+        int n = weights.length;
+        dp = new int[n+1][capacity+1];
+        for(int[] a : dp){
+            Arrays.fill(a , -1);
+        }
+        return findmax(capacity, weights, values , n);
+
+    }
+
+    //bottom top - tabulization
+
 //    public static int findMaxKnapsackProfit(int capacity, int [] weights, int [] values) {
 //
 //        int n = weights.length;
 //        dp = new int[n+1][capacity+1];
-//        for(int[] d : dp)
-//        Arrays.fill(d,-1);
-//        return findmax( capacity, weights, values, n);
+//        Arrays.fill(dp[0] , 0);
+//        for(int i = 0 ; i <=n ; i++){
+//            dp[i][0] = 0 ;
+//        }
+//        for(int i = 1; i <=n ; i++){
+//            for(int j = 1 ; j<=capacity ; j++){
+//                if(weights[i-1] <= j){
+//                    dp[i][j] = Math.max(values[i-1] + dp[i-1][j-weights[i-1]] , dp[i-1][j]);
+//                }else{
+//                    dp[i][j] = dp[i-1][j];
+//                }
+//
+//            }
+//        }
+//        return dp[n][capacity];
 //    }
-
-    //bottom top - tabulization
-
-    public static int findMaxKnapsackProfit(int capacity, int [] weights, int [] values) {
-
-        int n = weights.length;
-        dp = new int[n+1][capacity+1];
-        Arrays.fill(dp[0] , 0);
-        for(int i = 0 ; i <=n ; i++){
-            dp[i][0] = 0 ;
-        }
-        for(int i = 1; i <=n ; i++){
-            for(int j = 1 ; j<=capacity ; j++){
-                if(weights[i-1] <= j){
-                    dp[i][j] = Math.max(values[i-1] + dp[i-1][j-weights[i-1]] , dp[i-1][j]);
-                }else{
-                    dp[i][j] = dp[i-1][j];
-                }
-
-            }
-        }
-        return dp[n][capacity];
-    }
 
     // Driver code
     public static void main(String[] args) {

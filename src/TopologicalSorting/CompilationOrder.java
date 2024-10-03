@@ -1,5 +1,5 @@
 //solvedbyme
-package graphs;
+package TopologicalSorting;
 import java.util.*;
 
 class CompilationOrder {
